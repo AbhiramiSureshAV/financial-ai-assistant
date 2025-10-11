@@ -1,0 +1,30 @@
+# Environment variables
+.env
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Virtual environment (if you use one)
+venv/
+env/
+*.env
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Render-specific (optional, for safety)
+*.pid
