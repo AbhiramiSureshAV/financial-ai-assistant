@@ -8,22 +8,45 @@
 
 ## 📋 How to Test
 
-### Basic Query (Exact Format Required)
+### Web Interface (Recommended)
+Visit: **https://financial-ai-backend-fu6p.onrender.com**
+- Modern, interactive web interface
+- Real-time chat experience
+- Visual feedback and animations
+
+### API Documentation
+Visit: **https://financial-ai-backend-fu6p.onrender.com/docs**
+- Interactive API testing
+- Complete endpoint documentation
+- Built-in request/response examples
+
+### Command Line Testing
+
+#### PowerShell (Windows)
+```powershell
+# Basic Query (Exact Format Required)
+Invoke-RestMethod -Uri "https://financial-ai-backend-fu6p.onrender.com/simple-query" -Method POST -ContentType "application/json" -Body '{"message": "Give me the latest news on the stock market."}'
+
+# Advanced Query (With Session Support)
+Invoke-RestMethod -Uri "https://financial-ai-backend-fu6p.onrender.com/query" -Method POST -ContentType "application/json" -Body '{"session_id": "user123", "message": "What are the top tech stocks to watch?"}'
+
+# Follow-up Query (Shows Context Memory)
+Invoke-RestMethod -Uri "https://financial-ai-backend-fu6p.onrender.com/query" -Method POST -ContentType "application/json" -Body '{"session_id": "user123", "message": "How about their recent performance?"}'
+```
+
+#### Bash/Linux/Mac
 ```bash
+# Basic Query (Exact Format Required)
 curl -X POST https://financial-ai-backend-fu6p.onrender.com/simple-query \
 -H "Content-Type: application/json" \
 -d '{"message": "Give me the latest news on the stock market."}'
-```
 
-### Advanced Query (With Session Support)
-```bash
+# Advanced Query (With Session Support)
 curl -X POST https://financial-ai-backend-fu6p.onrender.com/query \
 -H "Content-Type: application/json" \
 -d '{"session_id": "user123", "message": "What are the top tech stocks to watch?"}'
-```
 
-### Follow-up Query (Shows Context Memory)
-```bash
+# Follow-up Query (Shows Context Memory)
 curl -X POST https://financial-ai-backend-fu6p.onrender.com/query \
 -H "Content-Type: application/json" \
 -d '{"session_id": "user123", "message": "How about their recent performance?"}'
@@ -114,6 +137,10 @@ services:
 
 ## 📊 API Endpoints
 
+### GET `/`
+**Purpose**: Modern web interface for interactive testing
+**Features**: Real-time chat, visual feedback, responsive design
+
 ### POST `/simple-query`
 **Format**: `{"message": "your question"}`
 **Purpose**: Matches exact internship requirement format
@@ -145,6 +172,13 @@ services:
 - Multi-turn financial discussions
 - Personalized investment advice
 - Historical market references
+
+### User Interface
+- **Modern Web Interface**: Professional financial theme with gradient design
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Real-time Feedback**: Loading animations and visual status indicators
+- **Interactive Elements**: Smooth transitions and hover effects
+- **Accessibility**: Keyboard shortcuts (Enter to send) and focus management
 
 ## 🔧 Local Development
 
