@@ -28,20 +28,19 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     response: str
 
-from contextlib import asynccontextmanager
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    logger.info("Starting FastAPI MCP server")
-    yield
-    logger.info("Shutting down FastAPI MCP server")
-
 app = FastAPI(
     title="Financial AI Assistant MCP Server",
     description="MCP-compatible FastAPI server for financial market queries",
-    version="1.0.0",
-    lifespan=lifespan
+    version="1.0.0"
 )
+
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Starting FastAPI MCP server")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    logger.info("Shutting down FastAPI MCP server")
 
 async def call_groq_api(messages: List[Dict[str, str]]) -> str:
     """Call Groq API with conversation history"""
