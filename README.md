@@ -8,9 +8,9 @@
 
 ## 📋 How to Test
 
-### Curl Commands for Testing (As Requested)
+### Curl Commands for Testing 
 
-**Basic Query (Exact Format Required):**
+**Basic Query :**
 ```bash
 curl -X POST https://financial-ai-backend-fu6p.onrender.com/simple-query \
 -H "Content-Type: application/json" \
