@@ -8,7 +8,35 @@
 
 ## 📋 How to Test
 
-### Web Interface (Recommended)
+### Curl Commands for Testing (As Requested)
+
+**Basic Query (Exact Format Required):**
+```bash
+curl -X POST https://financial-ai-backend-fu6p.onrender.com/simple-query \
+-H "Content-Type: application/json" \
+-d '{"message": "Give me the latest news on the stock market."}'
+```
+
+**Advanced Query (With Session Support):**
+```bash
+curl -X POST https://financial-ai-backend-fu6p.onrender.com/query \
+-H "Content-Type: application/json" \
+-d '{"session_id": "user123", "message": "What are the top tech stocks to watch?"}'
+```
+
+**Follow-up Query (Shows Context Memory):**
+```bash
+curl -X POST https://financial-ai-backend-fu6p.onrender.com/query \
+-H "Content-Type: application/json" \
+-d '{"session_id": "user123", "message": "How about their recent performance?"}'
+```
+
+**Health Check:**
+```bash
+curl https://financial-ai-backend-fu6p.onrender.com/health
+```
+
+### Web Interface (Bonus)
 Visit: **https://financial-ai-backend-fu6p.onrender.com**
 - Modern, interactive web interface
 - Real-time chat experience
@@ -20,7 +48,7 @@ Visit: **https://financial-ai-backend-fu6p.onrender.com/docs**
 - Complete endpoint documentation
 - Built-in request/response examples
 
-### Command Line Testing
+### Alternative Testing Methods
 
 #### PowerShell (Windows)
 ```powershell
@@ -34,22 +62,10 @@ Invoke-RestMethod -Uri "https://financial-ai-backend-fu6p.onrender.com/query" -M
 Invoke-RestMethod -Uri "https://financial-ai-backend-fu6p.onrender.com/query" -Method POST -ContentType "application/json" -Body '{"session_id": "user123", "message": "How about their recent performance?"}'
 ```
 
-#### Bash/Linux/Mac
-```bash
-# Basic Query (Exact Format Required)
-curl -X POST https://financial-ai-backend-fu6p.onrender.com/simple-query \
--H "Content-Type: application/json" \
--d '{"message": "Give me the latest news on the stock market."}'
-
-# Advanced Query (With Session Support)
-curl -X POST https://financial-ai-backend-fu6p.onrender.com/query \
--H "Content-Type: application/json" \
--d '{"session_id": "user123", "message": "What are the top tech stocks to watch?"}'
-
-# Follow-up Query (Shows Context Memory)
-curl -X POST https://financial-ai-backend-fu6p.onrender.com/query \
--H "Content-Type: application/json" \
--d '{"session_id": "user123", "message": "How about their recent performance?"}'
+#### For Windows Users (PowerShell Alternative)
+```powershell
+# If curl doesn't work on Windows, use PowerShell:
+Invoke-RestMethod -Uri "https://financial-ai-backend-fu6p.onrender.com/simple-query" -Method POST -ContentType "application/json" -Body '{"message": "Give me the latest news on the stock market."}'
 ```
 
 ## 🏗️ How the Service Functions
