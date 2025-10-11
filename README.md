@@ -1,89 +1,174 @@
-# Financial AI Assistant MCP Server
+# Backend AI Market Intelligence Service
 
-A FastAPI-based MCP (Model Context Protocol) server that provides AI-powered financial market insights using the Grok API.
+**Internship Task**: MCP Server-based Financial AI Assistant
 
-## Features
+## 🚀 Live Service
 
-- **Session-based Context**: Maintains conversation history per session
-- **Grok API Integration**: Uses Grok for AI-powered financial responses
-- **MCP Compatible**: Runs as an MCP server for integration with compatible clients
-- **Error Handling**: Comprehensive error handling and logging
+**URL**: https://financial-ai-backend-fu6p.onrender.com
 
-## Tech Stack
+## 📋 How to Test
 
-- **FastAPI**: Modern Python web framework
-- **Grok API**: AI model for financial insights
-- **uvicorn**: ASGI server for deployment
-- **httpx**: Async HTTP client for API calls
-
-## Setup
-
-1. Install dependencies:
+### Basic Query (Exact Format Required)
 ```bash
+curl -X POST https://financial-ai-backend-fu6p.onrender.com/simple-query \
+-H "Content-Type: application/json" \
+-d '{"message": "Give me the latest news on the stock market."}'
+```
+
+### Advanced Query (With Session Support)
+```bash
+curl -X POST https://financial-ai-backend-fu6p.onrender.com/query \
+-H "Content-Type: application/json" \
+-d '{"session_id": "user123", "message": "What are the top tech stocks to watch?"}'
+```
+
+### Follow-up Query (Shows Context Memory)
+```bash
+curl -X POST https://financial-ai-backend-fu6p.onrender.com/query \
+-H "Content-Type: application/json" \
+-d '{"session_id": "user123", "message": "How about their recent performance?"}'
+```
+
+## 🏗️ How the Service Functions
+
+### Architecture
+- **MCP Server**: FastAPI-based server running on Render cloud platform
+- **AI Integration**: Grok API (xAI) for intelligent financial responses
+- **Context Management**: In-memory session storage for conversation continuity
+- **API Design**: RESTful endpoints with JSON request/response format
+
+### Request Flow
+1. Client sends POST request to `/query` or `/simple-query`
+2. Server extracts message and session ID (if provided)
+3. Message added to session conversation history
+4. Complete conversation context sent to Grok AI
+5. AI generates contextual financial response
+6. Response stored in session memory and returned to client
+
+## 🛠️ Tools, Libraries & Models Used
+
+### Core Stack
+- **FastAPI**: Modern Python web framework for API development
+- **Uvicorn**: ASGI server for production deployment
+- **Pydantic**: Data validation and serialization
+- **httpx**: Async HTTP client for AI API calls
+
+### AI Model
+- **Grok API (xAI)**: Advanced language model specialized for real-time information
+- **Model**: `llama-3.1-8b-instant` for fast, accurate financial responses
+- **System Prompt**: Configured specifically for financial market expertise
+
+### Deployment
+- **Render**: Cloud platform for hosting and auto-deployment
+- **Environment Variables**: Secure API key management
+- **Health Monitoring**: Built-in health check endpoints
+
+## 🧠 Context Preservation
+
+### Session-Based Memory
+- **Session Storage**: Each `session_id` maintains independent conversation history
+- **Message Limit**: Last 10 messages per session to prevent memory overflow
+- **Context Window**: Full conversation history sent to AI for contextual responses
+- **Memory Structure**:
+  ```python
+  session_memory = {
+      "user123": [
+          {"role": "user", "content": "What are tech stocks?"},
+          {"role": "assistant", "content": "Tech stocks are..."},
+          {"role": "user", "content": "How about their performance?"},
+          {"role": "assistant", "content": "Based on our previous discussion..."}
+      ]
+  }
+  ```
+
+### Context Benefits
+- **Follow-up Questions**: AI remembers previous topics
+- **Clarifications**: Can reference earlier parts of conversation
+- **Personalization**: Maintains user-specific conversation flow
+
+## ⚙️ MCP Server Configuration
+
+### Server Setup
+- **Framework**: FastAPI with lifespan management
+- **Host**: `0.0.0.0` (accepts all connections)
+- **Port**: Dynamic port assignment via `$PORT` environment variable
+- **Runtime**: Python 3.11 for optimal compatibility
+
+### Deployment Configuration (`render.yaml`)
+```yaml
+services:
+  - type: web
+    name: financial-ai-backend
+    runtime: python
+    pythonVersion: "3.11"
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+```
+
+### Environment Variables
+- `GROQ_API_KEY`: Secure API key for Grok AI service
+- `PORT`: Dynamic port assignment by hosting platform
+
+## 📊 API Endpoints
+
+### POST `/simple-query`
+**Format**: `{"message": "your question"}`
+**Purpose**: Matches exact internship requirement format
+
+### POST `/query` 
+**Format**: `{"session_id": "user123", "message": "your question"}`
+**Purpose**: Advanced endpoint with session management
+
+### GET `/health`
+**Purpose**: Service health monitoring
+
+### GET `/sessions`
+**Purpose**: Active session count (debugging)
+
+### GET `/docs`
+**Purpose**: Interactive API documentation
+
+## 🎯 Financial Intelligence Features
+
+### Market Expertise
+- Real-time stock market analysis
+- Investment recommendations
+- Financial news interpretation
+- Economic trend analysis
+- Risk assessment guidance
+
+### Conversation Capabilities
+- Contextual follow-up questions
+- Multi-turn financial discussions
+- Personalized investment advice
+- Historical market references
+
+## 🔧 Local Development
+
+```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-2. Set environment variable:
-```bash
-export GROK_API_KEY="your-grok-api-key-here"
-```
+# Set environment variable
+export GROQ_API_KEY="your-api-key"
 
-3. Run locally:
-```bash
+# Run locally
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-## Context Memory
+## 📈 Performance & Scalability
 
-The service preserves conversation context using in-memory session storage:
-- Each session_id maintains its own conversation history
-- Last 10 messages are kept per session to prevent memory overflow
-- Context allows follow-up questions like "How about tech stocks?" after asking about general market news
+- **Async Architecture**: Non-blocking request handling
+- **Memory Management**: Automatic session cleanup
+- **Error Handling**: Comprehensive exception management
+- **Logging**: Structured logging for monitoring
+- **Health Checks**: Built-in service monitoring
 
-## MCP Server Configuration
+---
 
-The service runs as an MCP server with:
-- Lifespan management for startup/shutdown
-- Health check endpoint at `/health`
-- Session monitoring at `/sessions`
-
-## API Usage
-
-### Test Command
-```bash
-curl -X POST http://localhost:8000/query \
--H "Content-Type: application/json" \
--d '{"session_id": "user123", "message": "Give me the latest news on the stock market."}'
-```
-
-### Example Conversation
-```bash
-# First query
-curl -X POST http://localhost:8000/query \
--H "Content-Type: application/json" \
--d '{"session_id": "user123", "message": "What is the latest on the stock market today?"}'
-
-# Follow-up query (maintains context)
-curl -X POST http://localhost:8000/query \
--H "Content-Type: application/json" \
--d '{"session_id": "user123", "message": "How about tech stocks?"}'
-```
-
-## Deployment
-
-### Render
-1. Connect your GitHub repository
-2. Set environment variable `GROK_API_KEY`
-3. Use build command: `pip install -r requirements.txt`
-4. Use start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-
-### Railway
-1. Connect your GitHub repository
-2. Set environment variable `GROK_API_KEY`
-3. Railway will auto-detect and deploy the FastAPI app
-
-## Endpoints
-
-- `POST /query` - Main query endpoint
-- `GET /health` - Health check
-- `GET /sessions` - Active sessions count
+**Developed for**: Backend AI Market Intelligence Internship Task  
+**Deployment**: Production-ready MCP server on Render  
+**Testing**: Fully functional with curl commands provided above
