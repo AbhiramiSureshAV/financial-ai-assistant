@@ -8,7 +8,11 @@ import uvicorn
 
 from dotenv import load_dotenv
 
-load_dotenv()  # Load environment variables from .env file
+# Load environment variables from .env file (optional in production)
+try:
+    load_dotenv()
+except:
+    pass
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
