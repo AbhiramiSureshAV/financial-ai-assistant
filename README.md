@@ -1,6 +1,6 @@
 # Backend AI Market Intelligence Service
 
-**Internship Task**: MCP Server-based Financial AI Assistant
+ MCP Server-based Financial AI Assistant
 
 ## 🚀 Live Service
 
